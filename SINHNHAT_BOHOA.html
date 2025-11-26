@@ -1,0 +1,1180 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>BÓ HOA SINH NHẬT – JSOL Flower</title>
+
+	<style>
+	/* =====================================================SLIDER HEADER===============================================*/
+	.slider {position: relative;
+			 width: 100%;
+			 height: 300px;
+			 overflow: hidden;}
+
+	.slide {position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+			transition: 1s;}
+
+	.slide.active { opacity: 1; }
+
+	.slide img {width: 100%;
+				height: 100%;
+				object-fit: cover;}
+
+													  /* === Caption HEADER === */
+	.caption {position: absolute;
+			  bottom: 20%;
+			  left: 50%;
+			  transform: translateX(-50%);
+			  color: #fff;
+			  text-align: center;
+			  text-shadow: 0 0 10px rgba(0,0,0,0.7);}
+
+	.caption h2 { font-size: 45px; margin-bottom: 10px; }
+
+	.caption p  { font-size: 20px; }
+
+													/* === Nút điều hướng HEADER === */
+	.prev, .next {position: absolute;
+				  top: 50%;
+				  transform: translateY(-50%);
+				  color: white;
+				  font-size: 40px;
+				  padding: 10px;
+				  cursor: pointer;
+				  user-select: none;
+				  transition: 0.3s;}
+
+	.prev { left: 20px; }
+
+	.next { right: 20px; }
+
+	.prev:hover, .next:hover { color: #ffb6c1; }
+
+												/* === Chấm điều hướng HEADER === */
+	.dots {position: absolute;
+		   bottom: 15px;
+		   width: 100%;
+		   text-align: center;}
+
+	.dot {display: inline-block;
+		  width: 12px;
+		  height: 12px;
+		  margin: 0 5px;
+		  background: #ddd;
+		  border-radius: 50%;
+		  cursor: pointer;
+		  transition: 0.3s;}
+
+	.dot.active { background: #ff8fa3; }
+
+	/* =============================================== MENU ====================================================== */
+	.menu-td{background: #F48998;
+			 text-align: center;
+			 padding: 10px 0;
+			 position: sticky;
+			 top: 0;
+			 z-index: 100;}
+
+	.menu-td a {color: white;
+				font-size: 30px;		
+				font-weight: bold;
+				text-decoration: none;
+				padding: 0 50px 6px;
+				position: relative;}
+
+	.menu-td a::after {	content: "";  			
+						position: absolute;
+						left: 50%;
+						bottom: 0;
+						width: 0;
+						height: 3px;
+						background: white;
+						border-radius: 10px;
+						transition: 0.3s;}
+
+	.menu-td a:hover::after { width: 100%; left: 0; }
+		
+	.menu-td a:hover {color: Black;
+					  background: linear-gradient(90deg,#ff8fa3,#ffb6c1);
+					  border-radius: 6px;
+					  transition: 0.3s;}
+/* =============================================== MENU DANH MỤC ================================================= */
+	.category-menu {display: flex;
+					justify-content: center;
+					align-items: center;
+					gap: 25px;
+					margin-top: 25px;
+					padding: 0;
+					flex-wrap: wrap;}
+
+	.category-menu > li {list-style: none;
+    					 position: relative;}
+
+	.category-menu > li > a {display: flex;
+							 justify-content: center;
+							 align-items: center;
+							 width: 200px;
+							 height: 100px;
+							 background: #FFA6B5;
+							 border-radius: 18px;
+							 font-size: 25px;
+							 font-weight: bold;
+							 color: BLACK;
+							 text-decoration: none;
+							 box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+						     transition: 0.25s;}
+
+	.category-menu > li > a:hover {background: #FFC2DA;
+								   transform: translateY(-4px);}
+	.category-menu {position: relative;
+    			    z-index: 9999;}
+
+
+	/* ======================================================== SUBMENU ============================================ */
+	.submenu {  position: absolute;
+				top: 100%;
+				left: 50%;
+				transform: translateX(-50%);
+				width: 220px;
+				background: #FFF;
+				border-radius: 12px;
+				padding: 10px 0;
+				display: none;
+				box-shadow: 0px 4px 12px rgba(0,0,0,0.2);}
+
+	.submenu li {list-style-type: none;}
+
+	.submenu li a { display: block;
+				padding: 12px 20px;
+				font-size: 17px;
+				color: #333;
+				text-decoration: none;
+				text-align: left;}
+
+	.submenu li a:hover {background: #FFE4EF;}
+	
+	.category-menu li:hover .submenu {display: block;}
+
+	td { text-align: center; }
+	.submenu {position: absolute;
+    		  z-index: 99999;}
+
+	/* ==================================================== BOX TIÊU ĐỀ ============================================= */
+	.box-title {display: inline-flex;
+					justify-content: center;
+					align-items: center;
+					background: #E8E8E8;
+					padding: 10px 60px;
+					border-radius: 12px;
+					border-left: 20px solid #4F4F4F;
+					box-shadow: 0 0 6px rgba(0,0,0,0.3);
+					width: 550px;
+					height: 50px;}
+
+		.box-title h2 {margin: 0;}
+
+
+		/* ========================================= KHUNG SẢN PHẨM ============================================ */
+		.khung-san-pham {width: 300px;  
+					 background: #FFE9EC;
+					 border-radius: 18px;
+					 padding: 18px;
+					 margin: 18px;
+					 display: inline-block;
+					 vertical-align: top;
+					 box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+					 transition: all 0.3s ease;
+					 border: 1px solid #f4c9d3;
+					 text-align: center;}
+
+		.khung-san-pham:hover {transform: translateY(-6px);
+						   		box-shadow: 0 12px 30px rgba(0,0,0,0.22);}
+
+														/* ==== ẢNH ==== */
+		.khung-san-pham .anh {width: 100%;
+							  height: 450px;
+							  border-radius: 14px;
+							  overflow: hidden;
+							  position: relative;}
+
+		.khung-san-pham img {width: 100%;
+							 height: 100%;
+							 object-fit: cover;
+							 transition: transform 0.35s ease;}
+
+		.khung-san-pham:hover img {transform: scale(1.05);}
+
+														   /* ==== TEXT ==== */
+		.ten {margin-top: 14px;
+			  font-size: 22px;
+			  font-weight: 700;
+			  color: #333;
+			  letter-spacing: 0.5px;}
+
+		.ma {font-size: 16px;
+			 font-weight: 600;
+			 color: #666;
+			 margin: 4px 0 10px;}
+
+														 /* ==== ĐÁNH GIÁ SAO ==== */
+		.rating {font-size: 20px;
+				 color: #FFD700; /* Vàng */
+				 font-weight: 700;
+				 margin-bottom: 8px;}
+
+		.so-sao {font-size: 15px;
+				 color: #555;
+				 font-weight: 500;
+				 margin-left: 5px;}
+
+															/* ==== GIÁ ==== */
+		.gia-container {margin-top: 10px;}
+
+		.gia-goc {font-size: 17px;
+				  color: #888;
+				  text-decoration: line-through;
+				  margin-right: 10px;}
+
+		.gia-giam {font-size: 24px;
+				   font-weight: 800;
+				   color: #C92C6D;}
+		
+		.khung-san-pham.hidden {display: none;}
+		
+		/* ==== NỀN CHO TR ==== */
+		.bg-section {background:#FBD0D5;}
+		.bg1-section {background:#FEECEF;}
+		/* ================================================ KHUNG LIÊN HỆ ============================================= */
+		.contact-box {background: #FFE9EC;      
+					  padding: 30px;
+					  border-radius: 20px;
+					  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+					  display: inline-block;
+					  width: 80%;
+					  margin: 20px auto;
+					  text-align: center;}
+
+		.contact-box h2 {font-size: 36px;
+						 color: #C92C6D;
+						 margin-bottom: 20px;}
+
+		.contact-info p {font-size: 20px;
+						 margin: 10px 0;
+						 color: #333;}
+
+		.contact-info a {color: #C92C6D;
+						 text-decoration: none;}
+
+		.contact-info a:hover {text-decoration: underline;}
+		/* ================================================= FOOTER =================================================== */
+		.site-footer {background: #F48998;       
+					  color: white;
+					  text-align: center;
+					  padding: 25px 10px;
+					  font-size: 20px;
+					  box-shadow: 0 -4px 12px rgba(0,0,0,0.2);}
+
+		.site-footer a {color: #fff;
+						text-decoration: none;
+						font-weight: bold;
+						margin: 0 10px;
+						transition: 0.3s;}
+
+		.site-footer a:hover {color: #FFE9EC;  
+							  text-decoration: underline;}
+		
+		body {width: 100%;
+		  margin: 0;
+		  padding: 0;}
+		
+		.container-center {width: 100%;
+					   max-width: 2000px;
+					   margin: 0 auto;
+					   display: flex;
+					   justify-content: center;}
+		body {display: flex;
+		      flex-direction: column;
+		      min-height: 100vh;}
+
+		.container-center {flex: 1;}
+
+		.site-footer {margin-top: auto;}
+		/* ============================================= timkiem ==================================================== */
+
+			#search-box {
+		position: fixed;
+		top: 10%;
+		left: 50%;
+		transform: translateX(-50%);
+		background: #FFE9EC;
+		width: 700px;
+		padding: 15px;
+		border-radius: 12px;
+		box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+		z-index: 99999;
+		transition: 0.3s;
+	}
+
+	.hidden { display: none; }
+
+	#search-input {
+		width: 80%;
+		padding: 12px;
+		font-size: 20px;
+		border: 1px solid #ccc;
+		border-radius: 8px;
+	}
+
+	#suggest-box {
+		margin-top: 10px;
+		background: #fafafa;
+		border-radius: 8px;
+		padding: 10px;
+		max-height: 300px;
+		overflow-y: auto;
+		border: 1px solid #ddd;
+	}
+
+	.suggest-item {
+		padding: 10px;
+		cursor: pointer;
+		font-size: 18px;
+		border-bottom: 1px solid #eee;
+	}
+
+	.suggest-item:hover {
+		background: #ffe8f0;
+	}
+
+				/* ======================= TOP HEADER ======================== */
+		.top-header {
+			width: 96%;
+			background: #F4C898;
+			padding: 12px 40px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			color: #6A3D06;
+			font-weight: bold;
+			position: sticky;
+			top: 0;
+			z-index: 2000;
+		}
+
+		/* Tên shop bên trái */
+		.top-header .left {
+			font-size: 38px;
+		}
+
+		/* Slogan giữa */
+		.top-header .center {
+			font-size: 26px;
+			text-align: center;
+			flex-grow: 1;
+		}
+
+		/* Icon bên phải */
+		.top-header .right {
+			display: flex;
+			gap: 18px;
+			font-size: 28px;
+		}
+
+		.top-header .icon {
+			cursor: pointer;
+			transition: 0.2s;
+		}
+
+		.top-header .icon:hover {
+			transform: scale(1.2);
+		}
+		
+	</style>
+</head>
+
+<body>
+	<div class="container-center">
+<table border="0" cellspacing="0" cellpadding="10" 
+       style="width: 100%; max-width: 2000px; margin: 0 auto; border-collapse: collapse;">
+									<!----------------------HEADER----------------->
+		<tr>
+			<td colspan="5" style="padding:0;">
+				<div class="slider">
+					<div class="slide active">
+						<img src="../HINHANH/2.png">
+						<div class="caption">
+							<h2>JSOL – Tiệm Hoa Tươi</h2>
+							<p>Hương sắc Việt, tinh hoa thế giới</p>
+						</div>
+					</div>
+
+					<div class="slide">
+						<img src="../HINHANH/3.png">
+						<div class="caption">
+							<h2>Hoa Tươi Mỗi Ngày</h2>
+							<p>Tuyển chọn kỹ – Giao nhanh – Tươi lâu</p></div>
+					</div>
+
+					<div class="slide">
+						<img src="../HINHANH/4.png">
+						<div class="caption">
+							<h2>Thiết Kế Theo Yêu Cầu</h2>
+							<p>Mang dấu ấn riêng cho từng khoảnh khắc</p>
+						</div>
+					</div>
+					
+					<span class="prev">❮</span>
+					<span class="next">❯</span>
+
+					<div class="dots">
+						<span class="dot active"></span>
+						<span class="dot"></span>
+						<span class="dot"></span>
+					</div>
+				</div>
+			</td>
+		</tr>
+	
+		<tr>
+			<td colspan="5" style="padding: 0;">
+				<div class="top-header">
+
+					<!-- BÊN TRÁI -->
+					<div class="left">
+						<a href="../WEB_CHINH.html" style="text-decoration: none; color: inherit;">
+							JSOL - FLOWER
+						</a>
+					</div>
+					<!-- Ở GIỮA -->
+					<div class="center">🌸 Nơi gửi gắm sắc hương & yêu thương 🌸</div>
+
+					<!-- BÊN PHẢI -->
+					<div class="right">
+						<span class="icon search-icon">🔍</span>
+						<span class="icon">🛒</span>
+						<span class="icon">👤</span>
+					</div>
+
+				</div>
+			</td>
+		</tr>
+
+		
+									<!----------------------MENU----------------->						
+		<tr>
+			<td colspan="5" class="menu-td">
+				<a href="../WEB_CHINH.html">TRANG CHỦ</a>
+    			<a href="../WEB_CHINH.html#gioi-thieu">GIỚI THIỆU</a>
+				<a href="../WEB_CHINH.html#san-pham-noi-bat">SẢN PHẨM HOT</a>
+				<a href="DANHMUC.html">DANH MỤC</a>
+				<a href="#lien-he">LIÊN HỆ</a>
+			</td>
+		</tr>
+									<!---------------TIÊU ĐỀ DANH MỤC------------>						
+		<tr>
+			<td colspan="5" class="bg-section">
+				
+				<ul class="category-menu">
+					<li><a href="#">Sinh Nhật ▼</a>
+						<ul class="submenu">
+							<li><a href="SINHNHAT_GIOHOA.html">Giỏ hoa</a></li>            
+							<li><a href="SINHNHAT_BOHOA.html">Bó hoa</a></li>
+						</ul>
+					</li>
+    				<li><a href="#">Khai Trương ▼</a>
+						<ul class="submenu">
+							<li><a href="KHAITRUONG_GIOHOA.html">Giỏ hoa khai trương</a></li>
+							<li><a href="KHAITRUONG_KEHOA.html">Kệ hoa khai trương</a></li>
+						</ul>
+    				</li>
+
+					<li><a href="#">Đám Tang ▼</a>
+						<ul class="submenu">
+							<li><a href="DAMTANG_KEHOA.html">Kệ hoa đám tang</a></li>
+							<li><a href="DAMTANG_VONGHOA.html">Vòng hoa chia buồn</a></li>
+							<li><a href="DAMTANG_GIOTC.html">Giỏ trái cây kính viếng</a></li>
+						</ul>
+					</li>
+					<li><a href="#">Bộ Sưu Tập ▼</a>
+						<ul class="submenu">
+							<li><a href="BST_HOACUOI.html">Hoa cưới</a></li>
+							<li><a href="BST_HOACAOCAP.html">Hoa cao cấp</a></li>
+							<li><a href="BST_HOALE.html">Hoa dịp lễ</a></li>
+							<li><a href="BST_HOAQTIEN.html">Hoa Tiền</a></li>
+							<li><a href="BST_HOAQUA.html">Bó hoa quả </a></li>
+							<li><a href="BST_QUA&HOA.html">Bó quà & hoa </a></li>
+						</ul>
+					</li>
+					<li><a href="#">Kiểu Dáng ▼</a>
+						<ul class="submenu">
+							<li><a href="KD_BOHOA.html">Bó hoa</a></li>
+							<li><a href="KD_GIOHOA.html">Giỏ hoa</a></li>
+							<li><a href="KD_HOATRAICAY.html">Hoa & trái cây</a></li>
+						</ul>
+					</li>
+					<li><a href="#">Loài Hoa ▼</a>
+						<ul class="submenu">
+							<li><a href="LH_HOAHONG.html">Hoa Hồng</a></li>
+							<li><a href="LH_HOABABY.html">Hoa Baby</a></li>
+							<li><a href="LH_HOATULIP.html">Hoa Tulip</a></li>
+							<li><a href="LH_HOAHUONGDUONG.html">Hoa Hướng Dương</a></li>
+							<li><a href="LH_HOASENDA.html">Hoa Sen Đá</a></li>
+							<li><a href="LH_HOAPHIYEN.html">Hoa Phi Yến</a></li>
+							<li><a href="LH_HOALAN.html">Hoa Lan</a></li>
+							<li><a href="LH_HOASEN.html">Hoa Sen</a></li>
+							<li><a href="LH_HOALY.html">Hoa Ly</a></li>
+							<li><a href="LH_HOACATTUONG.html">Hoa Cát Tường</a></li>
+							<li><a href="LH_HOALINHLAN.html">Hoa Linh Lan</a></li>
+						</ul>
+					</li>
+					<li><a href="#">Blog ▼</a>
+						<ul class="submenu">
+							<li><a href="BLOG_YNGHIA.html">Ý nghĩa các loài hoa</a></li>
+							<li><a href="BLOG_TUVAN.html">Tư vấn</a></li>
+						</ul>
+					</li>
+				</ul>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="5" class="bg1-section">
+				<center>				
+        			<div class="box-title"><h2>🎂 BÓ HOA SINH NHẬT</h2></div>
+				</center>
+			
+			  <!============================================ SẢN PHẨM 1 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/1.jpg">
+					</div>
+					<div class="ten">🌸 Sinh Nhật Dịu Dàng </div>
+					<div class="ma">Mã: SNBH1</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.5/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">700.000</span>
+						<span class="gia-giam">500.000đ</span>
+					</div>
+				</div>
+			 <!============================================= SẢN PHẨM 2 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/2.jpg">
+					</div> 
+					<div class="ten">🌼 Nắng Vàng </div>
+					<div class="ma">Mã: SNBH2</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">650.000</span>
+						<span class="gia-giam">500.000đ</span>
+					</div>
+				</div>
+			<!============================================== SẢN PHẨM 3 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/3.jpg">
+					</div> 
+					<div class="ten">🌷 Tulip Hồng Ngọt Ngào</div>
+					<div class="ma">Mã: SNBH3</div>
+					<div class="rating">★★★★★<span class="so-sao">(5/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">800.000</span>
+						<span class="gia-giam">750.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 4 ==========================================>	
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/4.jpg">
+					</div> 
+					<div class="ten">💗 Rực Rỡ Sinh Nhật</div>
+					<div class="ma">Mã: SNBH4</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">900.000</span>
+						<span class="gia-giam">850.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 5 ==========================================>	
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/5.jpg">
+					</div> 
+					<div class="ten">🎀 Pink Birthday Dreams</div>
+					<div class="ma">Mã: SNBH5</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.8/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">800.000</span>
+						<span class="gia-giam">750.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 6 ==========================================>	
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/6.jpg">
+					</div> 
+					<div class="ten">🌾 Sớm Mai Bình Yên</div>
+					<div class="ma">Mã: SNBH6</div>
+					<div class="rating">★★★★★<span class="so-sao">(5/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">650.000</span>
+						<span class="gia-giam">500.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 7 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/7.jpg">
+					</div> 
+					<div class="ten">🤍 Trắng Thuần Khiết</div>
+					<div class="ma">Mã: SNBH7</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.7/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">700.000</span>
+						<span class="gia-giam">600.000đ</span>
+					</div>
+				</div>
+			 <!============================================= SẢN PHẨM 8 ==========================================>   
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/8.jpg">
+					</div> 
+					<div class="ten">💗 Rực Sắc Hồng Sinh Nhật</div>
+					<div class="ma">Mã: SNBH8</div>
+
+					<div class="rating">★★★★☆<span class="so-sao">(4.8/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">500.000</span>
+						<span class="gia-giam">450.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 9 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/9.jpg">
+					</div> 
+					<div class="ten">❤️ Happy Red Bloom</div>
+					<div class="ma">Mã: SNBH9</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">700.000</span>
+						<span class="gia-giam">650.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 10 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/10.jpg">
+					</div> 
+					<div class="ten">💙 Blue Birthday Breeze</div>
+					<div class="ma">Mã: SNBH10</div>
+					<div class="rating">★★★★★<span class="so-sao">(5/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">800.000</span>
+						<span class="gia-giam">750.000đ</span>
+					</div>
+    			</div>
+			<!============================================= SẢN PHẨM 11 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/11.jpg">
+					</div> 
+					<div class="ten">💗 Hồng Ngọc Quyến Rũ</div>
+					<div class="ma">Mã: SNBH11</div>
+					<div class="rating">★★★★★<span class="so-sao">(5/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">1.200.000</span>
+						<span class="gia-giam">1.000.000đ</span>
+					</div>
+    			</div>
+			<!============================================= SẢN PHẨM 12 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/12.jpg">
+					</div> 
+					<div class="ten">🌷 Ly Hồng Thanh Nhã</div>
+					<div class="ma">Mã: SNBH12</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">900.000</span>
+						<span class="gia-giam">850.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 13 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/13.jpg">
+					</div> 
+					<div class="ten">💜 Lavender Birthday </div>
+					<div class="ma">Mã: SNBH13</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.8/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">700.000</span>
+						<span class="gia-giam">600.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 14 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/14.jpg">
+					</div> 
+					<div class="ten">🎀 Sweet Violet Birthday</div>
+					<div class="ma">Mã: SNBH14</div>
+					<div class="rating">★★★★★<span class="so-sao">(5/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">900.000</span>
+						<span class="gia-giam">850.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 15 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/15.jpg">
+					</div> 
+					<div class="ten">🌷 Pastel Mix Garden</div>
+					<div class="ma">Mã: SNBH15</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.8/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">550.000</span>
+						<span class="gia-giam">490.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 16 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/16.jpg">
+					</div> 
+					<div class="ten">💗 Hoa Nắng Sáng Rực Rỡ </div>
+					<div class="ma">Mã: SNBH16</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.7/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">580.000</span>
+						<span class="gia-giam">450.000đ</span>
+					</div>
+    			</div>
+			<!============================================= SẢN PHẨM 17 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/17.jpg">
+					</div> 
+					<div class="ten">🌷 Fuchsia Sang Trọng</div>
+					<div class="ma">Mã: SNBH17</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">620.000</span>
+						<span class="gia-giam">550.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 18 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/18.jpg">
+					</div> 
+					<div class="ten">💜 Hoa Dại Rustic </div>
+					<div class="ma">Mã: SNBH18</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.8/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">520.000</span>
+						<span class="gia-giam">430.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 19 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/19.jpg">
+					</div> 
+					<div class="ten">🎀 Rừng hoa nhiệt đới</div>
+					<div class="ma">Mã: SNBH19</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.6/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">450.000</span>
+						<span class="gia-giam">350.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 20 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/20.jpg">
+					</div> 
+					<div class="ten">🌷 Tulip Hồng Pastel</div>
+					<div class="ma">Mã: SNBH20</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">680.000</span>
+						<span class="gia-giam">550.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 21 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/21.jpg">
+					</div> 
+					<div class="ten">💗 Lotus Pink Classic</div>
+					<div class="ma">Mã: SNBH21</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">580.000</span>
+						<span class="gia-giam">450.000đ</span>
+					</div>
+    			</div>
+			<!============================================= SẢN PHẨM 22 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/22.jpg">
+					</div> 
+					<div class="ten">🌷 Lily Đỏ Nổi Bật</div>
+					<div class="ma">Mã: SNBH22</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.7/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">450.000</span>
+						<span class="gia-giam">320.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 23 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/23.jpg">
+					</div> 
+					<div class="ten">💜 Pastel Đen Couture </div>
+					<div class="ma">Mã: SNBH23</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">750.000</span>
+						<span class="gia-giam">640.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 24 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/24.jpg">
+					</div> 
+					<div class="ten">🎀 Hồ Điệp Tím Nhạt </div>
+					<div class="ma">Mã: SNBH24</div>
+					<div class="rating">★★★★★<span class="so-sao">(5/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">950.000</span>
+						<span class="gia-giam">860.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 25 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/25.jpg">
+					</div> 
+					<div class="ten">🌷 Trắng Tinh Khôi</div>
+					<div class="ma">Mã: SNBH25</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">780.000</span>
+						<span class="gia-giam">600.000đ</span>
+					</div>
+				</div>
+				<!============================================= SẢN PHẨM 26 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/26.jpg">
+					</div> 
+					<div class="ten">💗 Sweet Pink </div>
+					<div class="ma">Mã: SNBH26</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">680.000</span>
+						<span class="gia-giam">500.000đ</span>
+					</div>
+    			</div>
+			<!============================================= SẢN PHẨM 27 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/27.jpg">
+					</div> 
+					<div class="ten">🌷 Tiểu Đồng Hồng Sữa </div>
+					<div class="ma">Mã: SNBH27</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">720.000</span>
+						<span class="gia-giam">610.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 28 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/28.jpg">
+					</div> 
+					<div class="ten">💜 Spring Vibes </div>
+					<div class="ma">Mã: SNB28</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.8/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">650.000</span>
+						<span class="gia-giam">580.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 29 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/29.jpg">
+					</div> 
+					<div class="ten">🎀 Hoa Dã Yếu Rực Rỡ</div>
+					<div class="ma">Mã: SNBH29</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">920.000</span>
+						<span class="gia-giam">870.000đ</span>
+					</div>
+				</div>
+			<!============================================= SẢN PHẨM 30 ==========================================>
+				<div class="khung-san-pham">
+					<div class="anh">
+						<img src="../HINHANH/SN_BO/30.jpg">
+					</div> 
+					<div class="ten">🌷 Dreamy Purple</div>
+					<div class="ma">Mã: SNBH30</div>
+					<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+					<div class="gia-container">
+						<span class="gia-goc">720.000</span>
+						<span class="gia-giam">650.000đ</span>
+					</div>
+				</div>
+				<center>
+    				<button id="toggle-btn" 
+            				style="padding:12px 25px; font-size:20px; background:#FF8FA3; color:white; border:none; border-radius:10px; cursor:pointer; margin: 20px 0;">Xem tất cả sản phẩm
+					</button>
+				</center>
+			</td>
+		</tr>
+		
+										<!----------------------liên hệ----------------->
+		<tr id="lien-he" class="bg-section">
+		  <td colspan="5" style="text-align:center;">
+			<div class="contact-box">
+			  <h2>📞 LIÊN HỆ JSOL</h2>
+			  <div class="contact-info">
+				<p>✉️ Email: <a href="mailto:hann97549@gmail.com">hann97549@gmail.com</a></p>
+				<p>📞 Điện thoại: <a href="tel:0353158726">0353158726</a></p>
+				<p>📍 Địa chỉ: hẻm 95,Nguyễn Văn Linh,Khu Phố Năm Trại,Phường Long Hoa,Tỉnh Tây Ninh</p>
+			  </div>
+			 </div>
+		  </td>
+		</tr>
+	<tr>
+			<td colspan="5" style="padding:0;">
+				<footer class="site-footer">
+					<p>&copy; 2025 JSOL – Tiệm Hoa Tươi</p>
+					<p>Follow chúng tôi: 
+						<a href="https://www.facebook.com/ngoc.han.989742" target="_blank">
+							<img src="../HINHANH/8.png" alt="FB" width="24">
+						</a>
+						<a href="https://www.instagram.com/jsol.05/" target="_blank">
+							<img src="../HINHANH/9.png" alt="IG" width="24">
+						</a>
+					</p>
+				</footer>
+			</td>
+		</tr>
+</table>
+</div>
+<!-- Ô TÌM KIẾM -->
+	<div id="search-box" class="hidden">
+    <div style="display: flex; gap: 10px;">
+        <input type="text" id="search-input" placeholder="Nhập tên sản phẩm cần tìm...">
+        <button id="btn-search" style="
+            padding: 12px 18px;
+            font-size: 20px;
+            border: none;
+            background: #ff8fa3;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        ">🔍</button>
+    </div>
+
+    <div id="suggest-box"></div>
+</div>	
+							
+<!--------------------------------------------------JS SLIDER----------------------------------------------------------->
+<script>
+	let index=0, slides=document.querySelectorAll('.slide'), dots=document.querySelectorAll('.dot');
+
+	function showSlide(i){
+	  slides.forEach(s=>s.classList.remove('active'));
+	  dots.forEach(d=>d.classList.remove('active'));
+	  slides[i].classList.add('active'); dots[i].classList.add('active'); index=i;
+	}
+	function nextSlide(){ showSlide((index+1)%slides.length); }
+	function prevSlide(){ showSlide((index-1+slides.length)%slides.length); }
+
+	setInterval(nextSlide,3000); // lâu hơn cho dễ đọc
+	document.querySelector('.next').onclick=nextSlide;
+	document.querySelector('.prev').onclick=prevSlide;
+	dots.forEach((d,i)=>d.onclick=()=>showSlide(i));
+
+	function fadeInOnScroll(){
+	  document.querySelectorAll('.fade-in').forEach(el=>{
+		if(el.getBoundingClientRect().top<window.innerHeight-50) el.style.animationName='fadeInUp';
+	  });
+	}
+	window.addEventListener('scroll', fadeInOnScroll);
+	window.addEventListener('load', fadeInOnScroll);
+	
+
+</script>
+<!------------------------------------------------------- Ẩn bớt sản phẩm ---------------------------------------------->
+<script>
+    const products = document.querySelectorAll(".khung-san-pham");
+    const maxVisible = 10; 
+
+    products.forEach((p, i) => {
+        if (i >= maxVisible) p.classList.add("hidden");
+    });
+
+    const btn = document.getElementById("toggle-btn");
+    let expanded = false;
+
+    btn.onclick = () => {
+        expanded = !expanded;
+
+        if (expanded) {
+            products.forEach(p => p.classList.remove("hidden"));
+            btn.textContent = "Thu gọn sản phẩm";
+        } else {
+            products.forEach((p, i) => {
+                if (i >= maxVisible) p.classList.add("hidden");
+            });
+            btn.textContent = "Xem tất cả sản phẩm";
+        }
+    };
+</script>
+	
+
+<script>
+// Danh sách sản phẩm và trang HTML tương ứng
+const productsList = [
+    { name: "Bó hoa sinh nhật", url: "../WEB_PHU/SINHNHAT_BOHOA.html" },
+    { name: "Giỏ hoa sinh nhật", url: "../WEB_PHU/SINHNHAT_GIOHOA.html" },
+    { name: "Giỏ hoa khai trương", url: "../WEB_PHU/KHAITRUONG_GIOHOA.html" },
+    { name: "Kệ hoa khai trương", url: "../WEB_PHU/KHAITRUONG_KEHOA.html" },
+    { name: "Kệ hoa đám tang", url: "../WEB_PHU/DAMTANG_KEHOA.html" },
+    { name: "Vòng hoa đám tang", url: "../WEB_PHU/DAMTANG_VONGHOA.html" },
+    { name: "Giỏ trái cây kính viếng", url: "../WEB_PHU/DAMTANG_GIOQUA.html" },
+    { name: "Hoa cưới", url: "../WEB_PHU/BST_HOACUOI.html" },
+    { name: "Hoa cao cấp", url: "../WEB_PHU/BST_HOACAOCAP.html" },
+    { name: "Hoa dịp lễ", url: "../WEB_PHU/BST_HOALE.html" },
+    { name: "Hoa Tiền", url: "../WEB_PHU/BST_HOAQTIEN.html" },
+    { name: "Bó hoa quả", url: "../WEB_PHU/BST_HOAQUA.html" },
+    { name: "Bó quà & hoa", url: "../WEB_PHU/BST_QUA&HOA.html" },
+	{ name: "Bó hoa", url: "../WEB_PHU/KD_BOHOA" },
+	{ name: "Giỏ hoa", url: "../WEB_PHU/KD_GIOHOA.html" },
+	{ name: "Hoa Trái Cây", url: "../WEB_PHU/KD_HOATRAICAY.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa hồng", url: "../WEB_PHU/LH_HOAHONG.html" },
+	{ name: "Hoa hồng màu đỏ", url: "../WEB_PHU/HOAHONG_ĐO.html" },
+	{ name: "Hoa hồng màu cam", url: "../WEB_PHU/HOAHONG_CAM.html" },
+	{ name: "Hoa hồng màu hồng", url: "../WEB_PHU/HOAHONG_HONG.html" },
+	{ name: "Hoa hồng màu tím", url: "../WEB_PHU/HOAHONG_TIM.html" },
+	{ name: "Hoa hồng màu vàng", url: "../WEB_PHU/HOAHONG_VANG.html" },
+	{ name: "Hoa hồng màu xanh dương", url: "../WEB_PHU/HOAHONG_XANHDUONG.html" },
+	{ name: "Hoa hồng màu xanh lá", url: "../WEB_PHU/HOAHONG_XANHLA.html" },
+	{ name: "Hoa hồng màu trắng", url: "../WEB_PHU/HOATRANG.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Baby", url: "../WEB_PHU/LH_HOABABY.html" },
+	{ name: "Hoa Baby màu đỏ", url: "../WEB_PHU/HOABABY_DO.html" },
+	{ name: "Hoa Baby màu hồng", url: "../WEB_PHU/HOABABY_HONG.html" },
+	{ name: "Hoa Baby màu trắng", url: "../WEB_PHU/HOABABY_TRANG.html" },
+	{ name: "Hoa Baby màu xanh dương", url: "../WEB_PHU/HOABABY_XANHDUONG.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Cát Tường", url: "../WEB_PHU/LH_HOACATTUONG.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Hướng Dương", url: "../WEB_PHU/LH_HOAHUONGDUONG.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Lan", url: "../WEB_PHU/LH_HOALAN.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Linh Lan", url: "../WEB_PHU/LH_HOALINHLAN.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Ly", url: "../WEB_PHU/LH_HOALY.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Phi Yến", url: "../WEB_PHU/LH_HOAPHIYEN.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Sen", url: "../WEB_PHU/LH_HOASEN.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Sen Đá", url: "../WEB_PHU/LH_HOASENDA.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Tulip", url: "../WEB_PHU/LH_HOATULIP.html" },
+	{ name: "Hoa Tulip màu Cam", url: "../WEB_PHU/HOATULIP_CAM.html" },
+	{ name: "Hoa Tulip màu Đỏ", url: "../WEB_PHU/HOATULIP_DO.html" },
+	{ name: "Hoa Tulip màu Hồng", url: "../WEB_PHU/HOATULIP_HONG.html" },
+	{ name: "Hoa Tulip màu Tím", url: "../WEB_PHU/HOATULIP_TIM.html" },
+	{ name: "Hoa Tulip màu Trắng", url: "../WEB_PHU/HOATULIP_TRANG.html" },
+	{ name: "Hoa Tulip màu Vàng", url: "../WEB_PHU/HOATULIP_VANG.html" },
+	{ name: "Hoa Tulip màu Xanh Dương", url: "../WEB_PHU/HOATULIP_XANHDUONG.html" },
+];
+
+// Icon → mở/đóng thanh tìm kiếm
+document.querySelector(".search-icon").onclick = () => {
+    document.getElementById("search-box").classList.toggle("hidden");
+    document.getElementById("search-input").focus();
+};
+
+// Gợi ý khi nhập
+document.getElementById("search-input").oninput = function () {
+    let keyword = this.value.toLowerCase();
+    let suggest = document.getElementById("suggest-box");
+    
+    suggest.innerHTML = "";
+
+    if (keyword === "") return;
+
+    // Lọc sản phẩm theo từ khóa
+    let results = productsList.filter(p =>
+        p.name.toLowerCase().includes(keyword)
+    );
+
+    // Hiển thị gợi ý
+    results.forEach(item => {
+        let div = document.createElement("div");
+        div.classList.add("suggest-item");
+        div.innerText = item.name;
+        div.onclick = () => {
+            window.location.href = item.url; // mở trang HTML tương ứng
+        };
+        suggest.appendChild(div);
+    });
+};
+
+// Hàm tìm kiếm chung (Enter + nút bấm)
+function executeSearch() {
+    let q = document.getElementById("search-input").value.trim().toLowerCase();
+    if (q === "") return;
+
+    let found = productsList.find(p => p.name.toLowerCase() === q);
+
+    if (found) {
+        window.location.href = found.url;
+    } else {
+        alert("❌ Không tìm thấy sản phẩm phù hợp!");
+    }
+}
+
+// ENTER → tìm kiếm
+document.getElementById("search-input").addEventListener("keypress", function(e){
+    if (e.key === "Enter") executeSearch();
+});
+
+// NÚT TÌM KIẾM
+document.getElementById("btn-search").onclick = executeSearch;
+// Click ra ngoài sẽ ẩn khung tìm kiếm
+document.addEventListener("click", function(e) {
+    const searchBox = document.getElementById("search-box");
+    const searchIcon = document.querySelector(".search-icon");
+
+    if (!searchBox.contains(e.target) && !searchIcon.contains(e.target)) {
+        searchBox.classList.add("hidden");
+    }
+});
+
+</script>
+
+</body>
+</html>

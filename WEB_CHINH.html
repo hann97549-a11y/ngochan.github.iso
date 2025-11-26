@@ -1,0 +1,1307 @@
+ <!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>TIỆM_HOA_CỦA_JSOL</title>
+
+	<style>
+		/* ================================================SLIDER HEADER=============================================*/
+		.slider {position: relative;
+				 width: 100%;
+				 height: 300px;
+				 overflow: hidden;}
+
+		.slide {position: absolute;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				opacity: 0;
+				transition: 1s;}
+
+		.slide.active { opacity: 1; }
+
+		.slide img {width: 100%;
+					height: 100%;
+					object-fit: cover;}
+
+														  /* === Caption HEADER === */
+		.caption {position: absolute;
+				  bottom: 20%;
+				  left: 50%;
+				  transform: translateX(-50%);
+				  color: #fff;
+				  text-align: center;
+				  text-shadow: 0 0 10px rgba(0,0,0,0.7);}
+
+		.caption h2 { font-size: 45px; margin-bottom: 10px; }
+
+		.caption p  { font-size: 20px; }
+
+														/* === Nút điều hướng HEADER === */
+		.prev, .next {position: absolute;
+					  top: 50%;
+					  transform: translateY(-50%);
+					  color: white;
+					  font-size: 40px;
+					  padding: 10px;
+					  cursor: pointer;
+					  user-select: none;
+					  transition: 0.3s;}
+
+		.prev { left: 20px; }
+
+		.next { right: 20px; }
+
+		.prev:hover, .next:hover { color: #ffb6c1; }
+
+													/* === Chấm điều hướng HEADER === */
+		.dots {position: absolute;
+			   bottom: 15px;
+			   width: 100%;
+			   text-align: center;}
+
+		.dot {display: inline-block;
+			  width: 12px;
+			  height: 12px;
+			  margin: 0 5px;
+			  background: #ddd;
+			  border-radius: 50%;
+			  cursor: pointer;
+			  transition: 0.3s;}
+
+		.dot.active { background: #ff8fa3; }
+		/* =================================================== CTA ==================================================== */
+		.cta-banner {background: #DDDDDD;
+					 padding: 15px;
+					 border-radius: 12px;
+					 font-size: 22px;
+					 color: BLACK;
+					 font-weight: bold;
+					 box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
+		/* ======================================================== MENU ============================================== */
+		.menu-td{background: #F48998;
+				 text-align: center;
+				 padding: 10px 0;
+				 position: sticky;
+				 top: 0;
+				 z-index: 100;}
+
+		.menu-td a {color: white;
+					font-size: 40px;		
+					font-weight: bold;
+					text-decoration: none;
+					padding: 0 50px 6px;
+					position: relative;}
+
+		.menu-td a::after {	content: "";  			
+							position: absolute;
+							left: 50%;
+							bottom: 0;
+							width: 0;
+							height: 3px;
+							background: white;
+							border-radius: 10px;
+							transition: 0.3s;}
+
+		.menu-td a:hover::after { width: 100%; left: 0; }
+
+		.menu-td a:hover {color: Black;
+						  background: linear-gradient(90deg,#ff8fa3,#ffb6c1);
+						  border-radius: 6px;
+						  transition: 0.3s;}
+													/* === KHUNG THANH PHAN CUA MENU === */
+		.box-title {display: inline-flex;
+					justify-content: center;
+					align-items: center;
+					background: #E8E8E8;
+					padding: 10px 60px;
+					border-radius: 12px;
+					border-left: 20px solid #4F4F4F;
+					box-shadow: 0 0 6px rgba(0,0,0,0.3);
+					width: 550px;
+					height: 50px;}
+
+		.box-title h2 {margin: 0;}
+
+		/* ========================================== KHUNG SẢN PHẨM HOT ============================================*/
+		.khung-san-pham {width: 300px;  
+						 background: #FFE9EC;
+						 border-radius: 18px;
+						 padding: 18px;
+						 margin: 18px;
+						 display: inline-block;
+						 vertical-align: top;
+						 box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+						 transition: all 0.3s ease;
+						 border: 1px solid #f4c9d3;
+						 text-align: center;}
+
+		.khung-san-pham:hover {transform: translateY(-6px) scale(1.02);
+							   box-shadow: 0 12px 25px rgba(0,0,0,0.25);}
+
+
+															/* ==== ẢNH ==== */
+		.khung-san-pham .anh {width: 100%;
+							  height: 450px;
+							  border-radius: 14px;
+							  overflow: hidden;
+							  position: relative;
+							  display: flex;
+							  justify-content: center;
+							  align-items: center;}
+		
+		.khung-san-pham .anh img {display: block;}
+
+		.khung-san-pham img {width: 100%;
+							 height: 100%;
+							 object-fit: cover;
+							 transition: transform 0.35s ease;
+							 }
+
+		.khung-san-pham:hover img {transform: scale(1.05);}
+
+														   /* ==== TEXT ==== */
+		.ten {margin-top: 14px;
+			  font-size: 22px;
+			  font-weight: 700;
+			  color: #333;
+			  letter-spacing: 0.5px;}
+
+		.ma {font-size: 16px;
+			 font-weight: 600;
+			 color: #666;
+			 margin: 4px 0 10px;}
+
+														 /* ==== ĐÁNH GIÁ SAO ==== */
+		.rating {font-size: 20px;
+				 color: #FFD700; /* Vàng */
+				 font-weight: 700;
+				 margin-bottom: 8px;}
+
+		.so-sao {font-size: 15px;
+				 color: #555;
+				 font-weight: 500;
+				 margin-left: 5px;}
+
+															/* ==== GIÁ ==== */
+		.gia-container {margin-top: 10px;}
+
+		.gia-goc {font-size: 17px;
+				  color: #888;
+				  text-decoration: line-through;
+				  margin-right: 10px;}
+
+		.gia-giam {font-size: 24px;
+				   font-weight: 800;
+				   color: #C92C6D;}
+		/* ============================================= ABOUT US  ================================================= */
+		.about-container {width: 90%;
+						  margin: 40px auto;
+						  text-align: center;}
+
+		.about-title {font-size: 40px;
+					  font-weight: 600;
+					  color: #663366;
+					  margin-bottom: 20px;
+					  font-family: 'Georgia', serif;}
+
+		.about-content {background: #FFE9EC;
+						border-radius: 20px;
+						padding: 30px;
+						display: flex;
+						justify-content: center;
+						align-items: flex-start;
+						gap: 25px;}
+
+		.about-img img {width: 350px;
+						height: 300px;
+						object-fit: cover;
+						border-radius: 15px;
+						box-shadow: 0 4px 12px rgba(0,0,0,0.15);}
+
+		.about-text {width: 55%;
+					 text-align: justify;
+					 font-size: 20px;
+					 line-height: 1.7;
+					 color: #333;}
+		/* ================================================ SẢN PHẨM HOT ============================================*/
+		.dm-title {font-size: 32px;
+				   margin-top: 20px;
+				   color: #d14e7f;}
+
+		.dm-container {display: flex;
+					   justify-content: center;
+					   gap: 25px;
+					   flex-wrap: wrap;
+					   margin-top: 20px;}
+
+		.dm-item {width: 150px;
+				  background: #ffe8ef;
+				  border-radius: 15px;
+				  padding: 20px 10px;
+				  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+				  transition: 0.3s;
+				  cursor: pointer;}
+
+		.dm-item:hover {transform: translateY(-5px);
+						background: #ffd7e3;}
+
+		.dm-icon {font-size: 40px;}
+
+		.dm-name {font-size: 18px;
+				  font-weight: bold;
+				  margin-top: 8px;}
+		
+		.sp-hang {display: flex;
+				  justify-content: center;
+				  flex-wrap: wrap;
+				  gap: 20px;}
+		
+		.hang-san-pham {display: flex;
+						justify-content: center;
+					   gap: 20px;
+						 position: relative;  
+    					z-index: 10}
+		
+						/* ================= FADE INUP ============== */	
+		@keyframes fadeInUp {
+								from {opacity: 0;
+									  transform: translateY(20px);}
+								to {opacity: 1;
+									  transform: translateY(0);}}
+
+		.fade-in {opacity: 0;
+				  animation-fill-mode: forwards;
+				  animation-duration: 2s;}
+		
+		
+
+		/* ================================================== NỀN CHO TR ============================================== */
+		.bg-section {background:#FBD0D5;}
+		/* ===================================== INTRO DANH MỤC SẢN PHẨM =========================================== */
+			.intro-box {width: 80%;
+						margin: 30px auto;
+						background: #FFE6EF;
+						border-left: 8px solid #FF8FA3;
+						border-radius: 14px;
+						padding: 25px 30px;
+						box-shadow: 0px 4px 10px rgba(0,0,0,0.12);
+						text-align: center;
+						animation: fadeIn 1s ease;}
+
+			.intro-box h2 {font-size: 30px;
+						   margin: 0;
+						   color: #D14B72;}
+
+			.intro-box p {font-size: 18px;
+						  margin-top: 10px;
+						  color: #444;}
+
+			@keyframes fadeIn {from { opacity: 0; transform: translateY(10px); }
+							   to { opacity: 1; transform: translateY(0); }}
+			/* ============================================= SERVICE BOXES =========================================== */
+			.service-container {
+				width: 85%;
+				margin: 15px auto 35px;
+				display: flex;
+				justify-content: space-between;
+				gap: 20px;
+				flex-wrap: wrap;
+			}
+
+			.service-item {
+				flex: 1;
+				min-width: 240px;
+				background: #FFF3F7;
+				padding: 20px;
+				border-radius: 14px;
+				box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+				text-align: center;
+				transition: 0.3s;
+				border: 1px solid #FFD7E4;
+			}
+
+			.service-item:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+			}
+
+			.service-item .icon {
+				font-size: 40px;
+				margin-bottom: 10px;
+				color: #D14B72;
+			}
+
+			.service-item h3 {
+				font-size: 20px;
+				color: #C23F6C;
+				margin-bottom: 6px;
+			}
+			/* ===========================================KHUNG GIỚI THIỆU =========================================== */
+			.service-item p {font-size: 16px;
+							 color: #555;}
+
+			.premium-intro {width: 80%;
+							margin: 25px auto;
+							padding: 25px 30px;
+							background: #FFF0F5; 
+							border-left: 6px solid #FF8FA3;
+							border-radius: 14px;
+							box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+							text-align: center;
+							animation: fadeIn 1s ease;}
+
+			.premium-intro h2 {font-size: 26px;
+								color: #C23F6C;
+								margin-bottom: 12px;
+								font-weight: bold;}
+
+			.premium-intro p {font-size: 18px;
+							  color: #555;
+							  line-height: 1.5;
+							  margin: 0;}
+
+			@keyframes fadeIn {from { opacity: 0; transform: translateY(10px); }
+								to { opacity: 1; transform: translateY(0); }}
+		/* ================================================ KHUNG LIÊN HỆ =========================================== */
+		.contact-box {background: #FFE9EC;      
+					  padding: 30px;
+					  border-radius: 20px;
+					  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+					  display: inline-block;
+					  width: 80%;
+					  margin: 20px auto;
+					  text-align: center;}
+
+		.contact-box h2 {font-size: 36px;
+						 color: #C92C6D;
+						 margin-bottom: 20px;}
+
+		.contact-info p {font-size: 20px;
+						 margin: 10px 0;
+						 color: #333;}
+
+		.contact-info a {color: #C92C6D;
+						 text-decoration: none;}
+
+		.contact-info a:hover {text-decoration: underline;}
+		/* ============================================= FOOTER ==================================================== */
+		.site-footer {background: #F48998;       
+					  color: white;
+					  text-align: center;
+					  padding: 25px 10px;
+					  font-size: 20px;
+					  box-shadow: 0 -4px 12px rgba(0,0,0,0.2);}
+
+		.site-footer a {color: #fff;
+						text-decoration: none;
+						font-weight: bold;
+						margin: 0 10px;
+						transition: 0.3s;}
+
+		.site-footer a:hover {color: #FFE9EC;  
+							  text-decoration: underline;}
+
+		body {width: 100%;
+			  margin: 0;
+			  padding: 0;}
+
+		.container-center {width: 100%;
+						   max-width: 2000px;
+						   margin: 0 auto;
+						   display: flex;
+						   justify-content: center;}
+		/* ============================================= timkiem ==================================================== */
+
+			#search-box {
+		position: fixed;
+		top: 10%;
+		left: 50%;
+		transform: translateX(-50%);
+		background: #FFE9EC;
+		width: 700px;
+		padding: 15px;
+		border-radius: 12px;
+		box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+		z-index: 99999;
+		transition: 0.3s;
+	}
+
+	.hidden { display: none; }
+
+	#search-input {
+		width: 80%;
+		padding: 12px;
+		font-size: 20px;
+		border: 1px solid #ccc;
+		border-radius: 8px;
+	}
+
+	#suggest-box {
+		margin-top: 10px;
+		background: #fafafa;
+		border-radius: 8px;
+		padding: 10px;
+		max-height: 300px;
+		overflow-y: auto;
+		border: 1px solid #ddd;
+	}
+
+	.suggest-item {
+		padding: 10px;
+		cursor: pointer;
+		font-size: 18px;
+		border-bottom: 1px solid #eee;
+	}
+
+	.suggest-item:hover {
+		background: #ffe8f0;
+	}
+
+				/* ======================= TOP HEADER ======================== */
+		.top-header {
+			width: 96%;
+			background: #F4C898;
+			padding: 12px 40px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			color: #6A3D06;
+			font-weight: bold;
+			position: sticky;
+			top: 0;
+			z-index: 2000;
+		}
+
+		/* Tên shop bên trái */
+		.top-header .left {
+			font-size: 38px;
+		}
+
+		/* Slogan giữa */
+		.top-header .center {
+			font-size: 26px;
+			text-align: center;
+			flex-grow: 1;
+		}
+
+		/* Icon bên phải */
+		.top-header .right {
+			display: flex;
+			gap: 18px;
+			font-size: 28px;
+		}
+
+		.top-header .icon {
+			cursor: pointer;
+			transition: 0.2s;
+		}
+
+		.top-header .icon:hover {
+			transform: scale(1.2);
+		}
+		/*============================================= POPUP OVERLAY ==============================================*/
+		.popup-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,0.7); 
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 9999;
+			opacity: 0;
+			visibility: hidden;
+			transition: 0.5s ease;
+		}
+
+		.popup-overlay.show {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.popup-box {
+			background: rgba(255, 255, 255, 0.95); 
+			padding: 40px 60px;
+			border-radius: 20px;
+			max-width: 50000px;
+			text-align: center;
+			box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+			animation: popupFade 0.5s ease;
+		}
+
+		.popup-box h1 {
+			font-size: 70px;
+			color: #ff4b6e;
+			margin-bottom: 20px;
+			font-family: 'Dancing Script', cursive;
+			text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+		}
+		
+		.popup-box h2 {
+			font-size: 30px;
+			color: black;
+			margin-bottom: 30px;
+			font-family: 'Dancing Script', cursive;
+			text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+		}
+		
+		.popup-box h3 {
+			font-size: 20px;
+			color: #ff4b6e;
+			margin-bottom: 20px;
+			font-family: 'Dancing Script', cursive;
+			text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+		}
+		
+
+		.popup-box p {
+			font-size: 50px;
+			color: #555;
+			margin: 0;
+		}
+		
+		.popup-box {
+			background: #ffe6ef !important;  
+			border: 3px solid #ff7fa4;        
+			padding: 40px 60px;
+			border-radius: 25px;
+		}
+
+		@keyframes popupFade {
+			from { transform: scale(0.8); opacity: 0; }
+			to   { transform: scale(1); opacity: 1; }
+		}
+		
+		/* NÚT POPUP CHUNG (Đăng nhập / Đăng ký / Đăng xuất) */
+		.popup-btn {
+			padding: 15px 35px !important;   /* to hơn */
+			font-size: 22px !important;      /* chữ lớn hơn */
+			font-weight: bold;
+			background: #ff4b6e;
+			border: none;
+			color: white;
+			border-radius: 12px;
+			cursor: pointer;
+			margin-top: 20px;
+			box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
+			transition: 0.25s ease-in-out;
+		}
+
+		/* Hiệu ứng hover */
+		.popup-btn:hover {
+			background: #ff234f;
+			transform: scale(1.08);
+		}
+		/* Ô NHẬP TRONG POPUP (Email, Mật khẩu…) */
+		.popup-input {
+			width: 80%;              
+			padding: 12px 15px;       
+			font-size: 20px;          
+			border: 2px solid #ff7fa4;
+			border-radius: 10px;
+			margin-bottom: 15px;
+			outline: none;
+			background: #fff;
+			transition: 0.25s;
+		}
+
+		/* Hiệu ứng khi bấm vào */
+		.popup-input:focus {
+			border-color: #ff4b6e;
+			box-shadow: 0 0 8px rgba(255, 75, 110, 0.5);
+		}
+		#close-account-popup {
+			margin-top: 20px;
+			padding: 16px 40px;       
+			font-size: 22px;          
+			font-weight: 600;
+			border: none;
+			border-radius: 12px;      
+			background: gray;      
+			color: white;
+			cursor: pointer;
+			transition: 0.25s ease;   
+		}
+
+		/* Hiệu ứng hover */
+		#close-account-popup:hover {
+			background: black;
+			transform: scale(1.07);
+		}
+
+		
+		/* =============================================================================================== */
+	</style>
+</head>
+
+<body>
+	<div class="container-center">
+    <table border="1" cellspacing="0" cellpadding="10" 
+       style="width: 100%; max-width: 2000px; margin: 0 auto; border-collapse: collapse;">
+									<!----------------------HEADER----------------->
+		<tr>
+			<td colspan="5" style="padding:0;" >
+				<div class="slider">
+					<div class="slide active">
+						<img src="../WEB_NGOC_HAN/HINHANH/2.png">
+						<div class="caption">
+							<h2>JSOL – Tiệm Hoa Tươi</h2>
+							<p>Hương sắc Việt, tinh hoa thế giới</p>
+						</div>
+					</div>
+
+					<div class="slide">
+						<img src="../WEB_NGOC_HAN/HINHANH/3.png">
+						<div class="caption">
+							<h2>Hoa Tươi Mỗi Ngày</h2>
+							<p>Tuyển chọn kỹ – Giao nhanh – Tươi lâu</p></div>
+					</div>
+
+					<div class="slide">
+						<img src="../WEB_NGOC_HAN/HINHANH/4.png">
+						<div class="caption">
+							<h2>Thiết Kế Theo Yêu Cầu</h2>
+							<p>Mang dấu ấn riêng cho từng khoảnh khắc</p>
+						</div>
+					</div>
+
+					<span class="prev">❮</span>
+					<span class="next">❯</span>
+
+					<div class="dots">
+						<span class="dot active"></span>
+						<span class="dot"></span>
+						<span class="dot"></span>
+					</div>
+				</div>
+			</td>
+		</tr>
+		
+
+									<!----------------------CTA----------------->		
+		<tr>
+		  <td colspan="5" style="text-align:center;">
+			<div class="cta-banner fade-in">
+			  🌸 <strong>Mua ngay – Giao hàng trong 2 giờ!</strong> 🎁 Ưu đãi cuối tuần: Giảm 10% cho đơn hàng đầu tiên
+			</div>
+		  </td>
+		</tr>
+		
+		<tr>
+			<td colspan="5" style="padding: 0;">
+				<div class="top-header">
+
+					<!-- BÊN TRÁI -->
+					<div class="left">
+						<a href="WEB_CHINH.html" style="text-decoration: none; color: inherit;">
+							JSOL - FLOWER
+						</a>
+					</div>
+					<!-- Ở GIỮA -->
+					<div class="center">🌸 Nơi gửi gắm sắc hương & yêu thương 🌸</div>
+
+					<!-- BÊN PHẢI -->
+					<div class="right">
+						<span class="icon search-icon">🔍</span>
+						<span class="icon">🛒</span>
+						<span class="icon">👤</span>
+					</div>
+
+				</div>
+			</td>
+		</tr>
+
+		
+									<!----------------------MENU----------------->						
+		<tr>
+			<td colspan="5" class="menu-td">
+				<a href="WEB_CHINH.html">TRANG CHỦ</a>
+    			<a href="#gioi-thieu">GIỚI THIỆU</a>
+				<a href="#san-pham-noi-bat">SẢN PHẨM HOT</a>
+				<a href="WEB_PHU/DANHMUC.html">DANH MỤC</a>
+				<a href="#lien-he">LIÊN HỆ</a>
+				
+			</td>
+		</tr>
+		
+		
+
+									<!----------------------ABOUT US----------------->
+		<tr id="gioi-thieu" class="bg-section">
+			<td colspan="5" style="text-align:center;">
+				<div class="box-title">
+					<h2>✨VỀ CHÚNG TÔI </h2>
+				</div>
+				<div class="about-container">
+					<div class="about-content">
+						<!-- Ảnh trái -->
+						<div class="about-img">
+							<img src="../WEB_NGOC_HAN/HINHANH/5.jpg">
+						</div>
+						<!-- Nội dung chính -->
+						<div class="about-text">
+							<p>
+								Tại <strong>JSOL – Tiệm Hoa Tươi</strong>, chúng tôi tin rằng mỗi bông hoa đều mang
+								một câu chuyện riêng – cảm xúc, tình yêu và sự tinh tế được gửi gắm trong từng cánh hoa.
+							</p>
+							<p>
+								Chúng tôi luôn nỗ lực mang đến những sản phẩm hoa tươi chất lượng cao,
+								thiết kế trang nhã, hiện đại và phù hợp với mọi dịp như sinh nhật, khai trương,
+								sự kiện hay những khoảnh khắc cần sự sẻ chia.
+							</p>
+							<p>
+								JSOL cam kết mang đến trải nghiệm tuyệt vời – từ hoa tươi mỗi ngày,
+								dịch vụ tận tâm, cho đến phong cách thiết kế mang dấu ấn riêng.
+							</p>
+						</div>
+						<!-- Ảnh phải -->
+						<div class="about-img">
+							<img src="../WEB_NGOC_HAN/HINHANH/6.jpg">
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+								
+		<!----------------------SP HOT----------------->
+		<tr id="san-pham-noi-bat" class="bg-section">
+			<td colspan="5" style="text-align:center;">
+				<div class="box-title">
+					<h2>✨ SẢN PHẨM HOT</h2>
+				</div>
+			</td>
+		</tr>
+
+		<tr class="bg-section">
+			<td colspan="5" style="padding: 20px 0;">
+				<div class="hang-san-pham">
+
+					<div class="khung-san-pham fade-in">
+							<div class="anh">
+								<img src="HINHANH/SN_BO/11.jpg">
+							</div> 
+							<div class="ten">💗 Hồng Ngọc Quyến Rũ</div>
+							<div class="ma">Mã:SNBH11</div>
+							<div class="rating">★★★★★<span class="so-sao">(5/5)</span></div>
+							<div class="gia-container">
+								<span class="gia-goc">1.200.000</span>
+								<span class="gia-giam">1.000.000đ</span>
+							</div>
+						</div>
+
+					<div class="khung-san-pham fade-in">
+								<div class="anh">
+									<img src="HINHANH/KT_KE/12.jpg">
+								</div> 
+								<div class="ten">Kệ Hoa Khai Trương Thịnh Vượng</div>
+								<div class="ma">Mã: KTKH12</div>
+								<div class="rating">★★★★☆<span class="so-sao">(4.7/5)</span></div>
+								<div class="gia-container">
+									<span class="gia-goc">1.200.000</span>
+									<span class="gia-giam">1.050.000đ</span>
+								</div>
+							</div>
+
+					<div class="khung-san-pham fade-in">
+						<div class="anh">
+								<img src="HINHANH/SN_GIO/10.jpg">
+							</div> 
+							<div class="ten">🍑Peach Cream Chúc Mừng</div>
+							<div class="ma">Mã: SNGH10</div>
+							<div class="rating">★★★★★<span class="so-sao">(5/5)</span></div>
+							<div class="gia-container">
+								<span class="gia-goc">1.500.000</span>
+								<span class="gia-giam">1.300.000đ</span>
+							</div>
+					</div>
+
+					<div class="khung-san-pham fade-in">
+						<div class="anh">
+								<img src="HINHANH/ĐT_KE/9.jpg">
+							</div> 
+							<div class="ten">An Lạc Niết Bàn</div>
+							<div class="ma">Mã: ĐTKH9</div>
+							<div class="rating">★★★★☆<span class="so-sao">(4.9/5)</span></div>
+							<div class="gia-container">
+								<span class="gia-goc">1.700.000</span>
+								<span class="gia-giam">1.500.000đ</span>
+							</div>
+					</div>
+
+					<div class="khung-san-pham fade-in">
+						<div class="anh">
+								<img src="HINHANH/BST_HOAQUA/1.jpg">
+							</div>
+							<div class="ten">Nắng Vàng May Mắn</div>
+							<div class="ma">Mã: BSTHQ1</div>
+							<div class="rating">★★★★★<span class="so-sao">(5/5)</span></div>
+							<div class="gia-container">
+								<span class="gia-goc">800.000</span>
+								<span class="gia-giam">650.000đ</span>
+							</div>
+					</div>
+
+				</div>
+			</td>
+		</tr>
+
+		<!---------INTRO-------->
+		<tr class="bg-section">
+			<td colspan="5" style="text-align:center;">
+				<div class="intro-box">
+    				<h2>🌸 Khám phá thế giới hoa của JSOL Flower 🌸</h2>
+    				<p>
+						Chọn danh mục bên dưới để xem những mẫu hoa tươi đẹp nhất – được thiết kế tinh tế cho mọi khoảnh khắc.
+					</p>
+				</div>	
+				<!---------DV-------->
+				<div class="service-container">
+					<div class="service-item">
+						<div class="icon">🚚</div>
+						<h3>Giao Nhanh 2H</h3>
+						<p>Giao tận tay trong vòng 2 giờ.</p>
+					</div>
+
+					<div class="service-item">
+						<div class="icon">🎁</div>
+						<h3>Tặng Thiệp Miễn Phí</h3>
+						<p>Lời chúc viết tay cho từng đơn hàng.</p>
+					</div>
+
+					<div class="service-item">
+						<div class="icon">🌸</div>
+						<h3>Hoa Tươi 100%</h3>
+						<p>Tuyển chọn mỗi sáng, giữ độ tươi lâu.</p>
+					</div>
+					
+					<div class="service-item">
+						<div class="icon">💳</div>
+						<h3>Thanh toán linh hoạt</h3>
+						<p>Thuận tiện, nhanh gọn.</p>
+					</div>
+				</div>
+				<!-- ======= Khung giới thiệu ======= -->
+				<div class="premium-intro">
+					<h2>Hơn 500+ mẫu hoa tinh tế – dành cho mọi khoảnh khắc</h2>
+					<p>JSOL Flower mang đến những thiết kế hoa sang trọng, đa dạng phong cách.<br>
+					   Chọn danh mục bên dưới để bắt đầu hành trình tìm bó hoa phù hợp nhất.</p>
+				</div>
+			</td>
+		</tr>
+									<!----------------------liên hệ----------------->
+		<tr id="lien-he" class="bg-section">
+		  <td colspan="5" style="text-align:center;">
+			<div class="contact-box">
+			  <h2>📞 LIÊN HỆ JSOL</h2>
+			  <div class="contact-info">
+				<p>✉️ Email: <a href="mailto:hann97549@gmail.com">hann97549@gmail.com</a></p>
+				<p>📞 Điện thoại: <a href="tel:0353158726">0353158726</a></p>
+				<p>📍 Địa chỉ: hẻm 95,Nguyễn Văn Linh,Khu Phố Năm Trại,Phường Long Hoa,Tỉnh Tây Ninh</p>
+			  </div>
+			 </div>
+		  </td>
+		</tr>
+		<tr>
+			<td colspan="5" style="padding:0;">
+				<footer class="site-footer">
+					<p>&copy; 2025 JSOL – Tiệm Hoa Tươi</p>
+					<p>Follow chúng tôi: 
+						<a href="https://www.facebook.com/ngoc.han.989742" target="_blank">
+							<img src="HINHANH/8.png" alt="FB" width="24">
+						</a>
+						<a href="https://www.instagram.com/jsol.05/" target="_blank">
+							<img src="HINHANH/9.png" alt="IG" width="24">
+						</a>
+					</p>
+				</footer>
+			</td>
+		</tr>
+
+</table>
+</div>
+<!-- POPUP CHÀO MỪNG -->
+<div id="welcomePopup" class="popup-overlay">
+    <div class="popup-box">
+        <h1>Chào mừng bạn đến với JSOL – Flower! 🌸</h1>
+        <p>"Nơi gửi gắm yêu thương qua từng cánh hoa"</p>
+    </div>
+</div>
+
+<!-- Ô TÌM KIẾM -->
+	<div id="search-box" class="hidden">
+    <div style="display: flex; gap: 10px;">
+        <input type="text" id="search-input" placeholder="Nhập tên sản phẩm cần tìm...">
+        <button id="btn-search" style="
+            padding: 12px 18px;
+            font-size: 20px;
+            border: none;
+            background: #ff8fa3;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        ">🔍</button>
+    </div>
+
+    <div id="suggest-box"></div>
+</div>
+<!-- POPUP TÀI KHOẢN -->
+<div id="account-popup" class="popup-overlay">
+    <div class="popup-box">
+        <h2 id="account-title">👤 Tài khoản</h2>
+        <div id="account-content">
+            <!-- Nội dung sẽ được JS hiển thị -->
+        </div>
+		<button id="close-account-popup">Đóng</button>
+    </div>
+</div>
+
+
+<!--------------------------------------------------JS SLIDER----------------------------------------------------------->
+<script>
+	let index=0, slides=document.querySelectorAll('.slide'), dots=document.querySelectorAll('.dot');
+
+	function showSlide(i){
+	  slides.forEach(s=>s.classList.remove('active'));
+	  dots.forEach(d=>d.classList.remove('active'));
+	  slides[i].classList.add('active'); dots[i].classList.add('active'); index=i;
+	}
+	function nextSlide(){ showSlide((index+1)%slides.length); }
+	function prevSlide(){ showSlide((index-1+slides.length)%slides.length); }
+
+	setInterval(nextSlide,3000); // lâu hơn cho dễ đọc
+	document.querySelector('.next').onclick=nextSlide;
+	document.querySelector('.prev').onclick=prevSlide;
+	dots.forEach((d,i)=>d.onclick=()=>showSlide(i));
+
+	function fadeInOnScroll(){
+	  document.querySelectorAll('.fade-in').forEach(el=>{
+		if(el.getBoundingClientRect().top<window.innerHeight-50) el.style.animationName='fadeInUp';
+	  });
+	}
+	window.addEventListener('scroll', fadeInOnScroll);
+	window.addEventListener('load', fadeInOnScroll);
+
+</script>
+
+
+<!--------------------------------------------------------------------------------------------------------------------->
+<script>
+// Danh sách sản phẩm và trang HTML tương ứng
+const products = [
+    { name: "Bó hoa sinh nhật", url: "WEB_PHU/SINHNHAT_BOHOA.html" },
+    { name: "Giỏ hoa sinh nhật", url: "WEB_PHU/SINHNHAT_GIOHOA.html" },
+    { name: "Giỏ hoa khai trương", url: "WEB_PHU/KHAITRUONG_GIOHOA.html" },
+    { name: "Kệ hoa khai trương", url: "WEB_PHU/KHAITRUONG_KEHOA.html" },
+    { name: "Kệ hoa đám tang", url: "WEB_PHU/DAMTANG_KEHOA.html" },
+    { name: "Vòng hoa đám tang", url: "WEB_PHU/DAMTANG_VONGHOA.html" },
+    { name: "Giỏ trái cây kính viếng", url: "WEB_PHU/DAMTANG_GIOQUA.html" },
+    { name: "Hoa cưới", url: "WEB_PHU/BST_HOACUOI.html" },
+    { name: "Hoa cao cấp", url: "WEB_PHU/BST_HOACAOCAP.html" },
+    { name: "Hoa dịp lễ", url: "WEB_PHU/BST_HOALE.html" },
+    { name: "Hoa Tiền", url: "WEB_PHU/BST_HOAQTIEN.html" },
+    { name: "Bó hoa quả", url: "WEB_PHU/BST_HOAQUA.html" },
+    { name: "Bó quà & hoa", url: "WEB_PHU/BST_QUA&HOA.html" },
+	{ name: "Bó hoa", url: "WEB_PHU/KD_BOHOA" },
+	{ name: "Giỏ hoa", url: "WEB_PHU/KD_GIOHOA.html" },
+	{ name: "Hoa Trái Cây", url: "WEB_PHU/KD_HOATRAICAY.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa hồng", url: "WEB_PHU/LH_HOAHONG.html" },
+	{ name: "Hoa hồng màu đỏ", url: "WEB_PHU/HOAHONG_ĐO.html" },
+	{ name: "Hoa hồng màu cam", url: "WEB_PHU/HOAHONG_CAM.html" },
+	{ name: "Hoa hồng màu hồng", url: "WEB_PHU/HOAHONG_HONG.html" },
+	{ name: "Hoa hồng màu tím", url: "WEB_PHU/HOAHONG_TIM.html" },
+	{ name: "Hoa hồng màu vàng", url: "WEB_PHU/HOAHONG_VANG.html" },
+	{ name: "Hoa hồng màu xanh dương", url: "WEB_PHU/HOAHONG_XANHDUONG.html" },
+	{ name: "Hoa hồng màu xanh lá", url: "WEB_PHU/HOAHONG_XANHLA.html" },
+	{ name: "Hoa hồng màu trắng", url: "WEB_PHU/HOATRANG.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Baby", url: "WEB_PHU/LH_HOABABY.html" },
+	{ name: "Hoa Baby màu đỏ", url: "WEB_PHU/HOABABY_DO.html" },
+	{ name: "Hoa Baby màu hồng", url: "WEB_PHU/HOABABY_HONG.html" },
+	{ name: "Hoa Baby màu trắng", url: "WEB_PHU/HOABABY_TRANG.html" },
+	{ name: "Hoa Baby màu xanh dương", url: "WEB_PHU/HOABABY_XANHDUONG.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Cát Tường", url: "WEB_PHU/LH_HOACATTUONG.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Hướng Dương", url: "WEB_PHU/LH_HOAHUONGDUONG.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Lan", url: "WEB_PHU/LH_HOALAN.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Linh Lan", url: "WEB_PHU/LH_HOALINHLAN.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Ly", url: "WEB_PHU/LH_HOALY.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Phi Yến", url: "WEB_PHU/LH_HOAPHIYEN.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Sen", url: "WEB_PHU/LH_HOASEN.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Sen Đá", url: "WEB_PHU/LH_HOASENDA.html" },
+	/*--------------------------------------------------*/
+	{ name: "Hoa Tulip", url: "WEB_PHU/LH_HOATULIP.html" },
+	{ name: "Hoa Tulip màu Cam", url: "WEB_PHU/HOATULIP_CAM.html" },
+	{ name: "Hoa Tulip màu Đỏ", url: "WEB_PHU/HOATULIP_DO.html" },
+	{ name: "Hoa Tulip màu Hồng", url: "WEB_PHU/HOATULIP_HONG.html" },
+	{ name: "Hoa Tulip màu Tím", url: "WEB_PHU/HOATULIP_TIM.html" },
+	{ name: "Hoa Tulip màu Trắng", url: "WEB_PHU/HOATULIP_TRANG.html" },
+	{ name: "Hoa Tulip màu Vàng", url: "WEB_PHU/HOATULIP_VANG.html" },
+	{ name: "Hoa Tulip màu Xanh Dương", url: "WEB_PHU/HOATULIP_XANHDUONG.html" },
+];
+
+// Icon → mở/đóng thanh tìm kiếm
+document.querySelector(".search-icon").onclick = () => {
+    document.getElementById("search-box").classList.toggle("hidden");
+    document.getElementById("search-input").focus();
+};
+
+// Gợi ý khi nhập
+document.getElementById("search-input").oninput = function () {
+    let keyword = this.value.toLowerCase();
+    let suggest = document.getElementById("suggest-box");
+    
+    suggest.innerHTML = "";
+
+    if (keyword === "") return;
+
+    // Lọc sản phẩm theo từ khóa
+    let results = products.filter(p =>
+        p.name.toLowerCase().includes(keyword)
+    );
+
+    // Hiển thị gợi ý
+    results.forEach(item => {
+        let div = document.createElement("div");
+        div.classList.add("suggest-item");
+        div.innerText = item.name;
+        div.onclick = () => {
+            window.location.href = item.url; // mở trang HTML tương ứng
+        };
+        suggest.appendChild(div);
+    });
+};
+
+// Hàm tìm kiếm chung (Enter + nút bấm)
+function executeSearch() {
+    let q = document.getElementById("search-input").value.trim().toLowerCase();
+    if (q === "") return;
+
+    let found = products.find(p => p.name.toLowerCase() === q);
+
+    if (found) {
+        window.location.href = found.url;
+    } else {
+        alert("❌ Không tìm thấy sản phẩm phù hợp!");
+    }
+}
+
+// ENTER → tìm kiếm
+document.getElementById("search-input").addEventListener("keypress", function(e){
+    if (e.key === "Enter") executeSearch();
+});
+
+// NÚT TÌM KIẾM
+document.getElementById("btn-search").onclick = executeSearch;
+	
+// Click ra ngoài sẽ ẩn khung tìm kiếm
+document.addEventListener("click", function(e) {
+    const searchBox = document.getElementById("search-box");
+    const searchIcon = document.querySelector(".search-icon");
+
+    if (!searchBox.contains(e.target) && !searchIcon.contains(e.target)) {
+        searchBox.classList.add("hidden");
+    }
+});
+
+</script>
+<!-------------------------------------------------------------------------->
+<script>
+ /*POPUP TÀI KHOẢN TRÊN WEB CỦA BẠN*/
+// Icon người dùng trong header (biểu tượng 👤 cuối cùng)
+const accountIcon = document.querySelector(".right .icon:last-child");
+
+// Popup và nội dung popup
+const accountPopup = document.getElementById("account-popup");
+const closeAccountPopup = document.getElementById("close-account-popup");
+const accountContent = document.getElementById("account-content");
+
+/* MỞ/ĐÓNG POPUP */
+
+accountIcon.addEventListener("click", () => {
+    accountPopup.classList.add("show");
+    renderAccountMenu();
+});
+
+closeAccountPopup.addEventListener("click", () => {
+    accountPopup.classList.remove("show");
+});
+
+/* HIỂN THỊ MENU TÀI KHOẢN */
+
+function renderAccountMenu() {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+    if (isLoggedIn) {
+    accountContent.innerHTML = `
+        <div class="popup-box">
+            <h2>Xin chào!</h2>
+            <h3> Liên hệ với JSOL - Flower để đặt hàng và tư vấn về sản phẩm bạn yêu thích nhé!</h3>
+            <h3>✉️ Email: <a href="mailto:hann97549@gmail.com">hann97549@gmail.com</h3>
+            <h3>📞 Điện thoại: <a href="tel:0353158726">0353158726</h3>
+            <h3📍 Địa chỉ: hẻm 95, Nguyễn Văn Linh, Khu Phố Năm Trại, Phường Long Hoa, Tỉnh Tây Ninh</h3>
+            <button id="logoutBtn" class="popup-btn">Đăng xuất</button>
+        </div>
+    `;
+
+    document.getElementById("logoutBtn").onclick = logout;
+}
+ else {
+        accountContent.innerHTML = `
+            <button class="popup-btn" id="goLogin">Đăng nhập</button>
+            <button class="popup-btn" id="goRegister">Đăng ký</button>
+        `;
+
+        document.getElementById("goLogin").onclick = showLoginForm;
+        document.getElementById("goRegister").onclick = showRegisterForm;
+    }
+}
+ /* FORM ĐĂNG NHẬP */
+
+function showLoginForm() {
+    accountContent.innerHTML = `
+        <h2>Đăng nhập</h2>
+        <input id="loginEmail" type="text" placeholder="Email hoặc số điện thoại" class="popup-input">
+        <input id="loginPass" type="password" placeholder="Mật khẩu" class="popup-input">
+        <button class="popup-btn" id="loginBtn">Đăng nhập</button>
+        <p style="margin-top:10px;font-size:30px;">Chưa có tài khoản? 
+            <a href="#" id="goRegister">Đăng ký</a>
+        </p>
+        <p style="margin-top:10px;font-size:30px;">
+            <a href="#" id="forgotPass">Quên mật khẩu?</a>
+        </p>
+    `;
+
+    document.getElementById("goRegister").onclick = showRegisterForm;
+    document.getElementById("loginBtn").onclick = login;
+    document.getElementById("forgotPass").onclick = showForgotPasswordForm;
+}
+
+/* FORM QUÊN MẬT KHẨU */
+
+function showForgotPasswordForm() {
+    accountContent.innerHTML = `
+        <h2>Quên mật khẩu</h2>
+        <input id="forgotEmail" type="text" placeholder="Nhập email của bạn" class="popup-input">
+        <button class="popup-btn" id="sendPassBtn">Lấy lại mật khẩu</button>
+        <p style="margin-top:10px;font-size:30px;">
+            <a href="#" id="backLogin">Quay lại đăng nhập</a>
+        </p>
+    `;
+
+    document.getElementById("sendPassBtn").onclick = recoverPassword;
+    document.getElementById("backLogin").onclick = showLoginForm;
+}
+
+/* XỬ LÝ LẤY LẠI MẬT KHẨU */
+
+function recoverPassword() {
+    let email = document.getElementById("forgotEmail").value.trim();
+    let user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user || email !== user.email) {
+        alert("Email không tồn tại trong hệ thống!");
+        return;
+    }
+
+    alert("Mật khẩu của bạn là: " + user.password);
+    showLoginForm();
+}
+
+/* XỬ LÝ ĐĂNG NHẬP */
+
+function login() {
+    let user = JSON.parse(localStorage.getItem("user"));
+    let email = document.getElementById("loginEmail").value.trim();
+    let pass = document.getElementById("loginPass").value.trim();
+
+    if (!user) {
+        alert("Bạn chưa đăng ký tài khoản!");
+        return;
+    }
+
+    if (email === user.email && pass === user.password) {
+        localStorage.setItem("isLoggedIn", "true");
+        alert("Đăng nhập thành công!");
+        renderAccountMenu();
+    } else {
+        alert("Sai email hoặc mật khẩu!");
+    }
+}
+ /* FORM ĐĂNG KÝ */
+
+function showRegisterForm() {
+    accountContent.innerHTML = `
+        <h3>Đăng ký</h3>
+        <input id="regEmail" type="text" placeholder="Email" class="popup-input">
+        <input id="regPass" type="password" placeholder="Mật khẩu" class="popup-input">
+        <button class="popup-btn" id="regBtn">Đăng ký</button>
+        <p style="margin-top:10px;font-size:30px;">Đã có tài khoản?
+            <a href="#" id="goLogin">Đăng nhập</a>
+        </p>
+    `;
+
+    document.getElementById("goLogin").onclick = showLoginForm;
+    document.getElementById("regBtn").onclick = register;
+}
+
+/* XỬ LÝ ĐĂNG KÝ */
+
+function register() {
+    let email = document.getElementById("regEmail").value.trim();
+    let pass = document.getElementById("regPass").value.trim();
+
+    if (!email || !pass) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
+
+    localStorage.setItem("user", JSON.stringify({ email, password: pass }));
+    alert("Đăng ký thành công!");
+    showLoginForm();
+}
+ 
+/* ĐĂNG XUẤT */
+
+function logout() {
+    localStorage.removeItem("isLoggedIn");
+    renderAccountMenu();
+}
+</script>
+
+<!-------------------------------------------------------------------->
+<script>
+// POPUP CHÀO MỪNG TỰ ẨN 
+window.addEventListener("load", function () {
+    const popup = document.getElementById("welcomePopup");
+
+    // Kiểm tra nếu popup chưa được hiển thị trong phiên này
+    if (!sessionStorage.getItem("popupShown")) {
+
+        popup.classList.add("show");
+
+        // Tự động tắt sau 3 giây
+        setTimeout(() => {
+            popup.classList.remove("show");
+        }, 1000);
+
+        // Đánh dấu đã hiện popup 1 lần
+        sessionStorage.setItem("popupShown", "true");
+    }
+});
+</script>
+
+<!-------------------------------------------------------------------->
+</body>
+</html>
+
